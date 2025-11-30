@@ -17,7 +17,13 @@ import SoundCloud from "../lib/soundcloud.js";
 export const getFfmpegPath = () => {
     const env = secret.FFMPEG_ENV;
     if (env === 'production') {
-        return '/usr/bin/ffmpeg';
+        // Check if ffmpeg-static is available
+        try {
+            return require('ffmpeg-static');
+        } catch (error) {
+            // Fallback to system ffmpeg
+            return '/usr/bin/ffmpeg';
+        }
     } else if (env === 'development') {
         return ffmpegStatic;
     } else {

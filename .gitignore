@@ -23,16 +23,31 @@ dist-ssr
 *.sln
 *.sw?
 
+# Media files (these are downloaded dynamically)
 tracks/
+media/
+fallback/
+
+# Data files (these are generated dynamically)
+data/
 token.json
 dymmy.json
-.env
-config/
-test.js
-.mp3
-cache
-docker/
-data/
 test.json
-fallback/
-media/
+
+# Config files (these may contain sensitive information)
+config/
+.env
+
+# Cache
+cache
+.docker
+
+# Runtime data
+.pid
+*.pid
+
+# Test files
+test.js
+
+# Audio files
+*.mp3

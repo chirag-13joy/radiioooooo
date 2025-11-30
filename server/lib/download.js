@@ -1,4 +1,4 @@
-import ytdl from 'youtube-dl-exec';
+import ytdl from 'ytdl-core';
 import yts from 'yt-search'
 import fs from 'fs';
 import path from 'path';
@@ -14,21 +14,10 @@ import { createDownloadLinks } from '../utils/crypto.js';
 
 ffmpeg.setFfmpegPath(getFfmpegPath());
 class MyDownloader {
-    
+
     async testCookies() {
         try {
-            const cookiesPath = getCookiesPath();
-            logger.info('Testing YouTube cookies...');
-            
-            // Test with a known age-restricted video that requires authentication
-            const testUrl = 'https://www.youtube.com/watch?v=tPx-7Grk_UY';
-            const result = await ytdl(testUrl, {
-                dumpSingleJson: true,
-                cookies: cookiesPath,
-                verbose: true
-            });
-            
-            logger.info('YouTube cookies are working correctly');
+            logger.info('Skipping YouTube cookies test - not supported with ytdl-core');
             return true;
         } catch (error) {
             logger.error('YouTube cookie test failed:', error);
@@ -69,12 +58,12 @@ class MyDownloader {
         logger.info(`Downloading ${title} to ${outputFilePath}`);
         try {
             const cookiesPath = getCookiesPath();
-            
+
             // Check if cookies exist and are valid
             let useCookies = false;
             if (fs.existsSync(cookiesPath)) {
                 const cookiesContent = fs.readFileSync(cookiesPath, 'utf8');
-                const cookieLines = cookiesContent.split('\n').filter(line => 
+                const cookieLines = cookiesContent.split('\n').filter(line =>
                     line.trim() && !line.startsWith('#') && line.includes('.youtube.com')
                 );
 
@@ -94,33 +83,11 @@ class MyDownloader {
                 {
                     name: 'without cookies',
                     options: {
-                        output: outputFilePath,
-                        extractAudio: true,
-                        audioFormat: 'mp3',
-                        audioQuality: 6,
-                        noCallHome: true,
-                        noCheckCertificate: true,
-                        preferFreeFormats: true,
-                        ffmpegLocation: getFfmpegPath(),
-                        verbose: false // Reduce verbosity for cleaner logs
+                        filter: 'audioonly',
+                        quality: 'highestaudio',
+                        format: 'mp3'
                     }
-                },
-                // Method 2: With cookies (if available)
-                ...(useCookies ? [{
-                    name: 'with cookies',
-                    options: {
-                        output: outputFilePath,
-                        extractAudio: true,
-                        audioFormat: 'mp3',
-                        audioQuality: 6,
-                        noCallHome: true,
-                        noCheckCertificate: true,
-                        preferFreeFormats: true,
-                        ffmpegLocation: getFfmpegPath(),
-                        cookies: cookiesPath,
-                        verbose: false
-                    }
-                }] : [])
+                }
             ];
 
             let downloadSuccessful = false;
@@ -130,7 +97,16 @@ class MyDownloader {
             for (const method of downloadMethods) {
                 try {
                     logger.info(`Attempting download of ${title} ${method.name}`);
-                    await ytdl(url, method.options);
+                    const stream = ytdl(url, method.options);
+                    const writer = fs.createWriteStream(outputFilePath);
+                    stream.pipe(writer);
+                    
+                    await new Promise((resolve, reject) => {
+                        writer.on('finish', resolve);
+                        writer.on('error', reject);
+                        stream.on('error', reject);
+                    });
+                    
                     logger.info(`Successfully downloaded ${title} using ${method.name}`);
                     downloadSuccessful = true;
                     break;
@@ -219,13 +195,13 @@ class MyDownloader {
         }
     }
 
-    async downloadSoundCloud(url, title){
+    async downloadSoundCloud(url, title) {
         const download = new SoundCloud();
         const streamUrl = await download.fetchStreamUrl(url);
         return await this.downloadFromUrl(streamUrl, title)
     }
 
-    async downloadJioSaavn(url, title){
+    async downloadJioSaavn(url, title) {
         const streamUrl = createDownloadLinks(url)[3].url;
         return await this.downloadFromUrl(streamUrl, title)
     }
