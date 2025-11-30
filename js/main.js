@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Audio element for streaming
     let audioPlayer = new Audio();
     
-    // Station data with stream URLs (using actual streaming URLs)
+    // Station data with actual working stream URLs
     const stations = {
         '': { name: 'Select a Station', description: 'Choose from our collection of radio stations', stream: '' },
-        'station1': { name: 'Jazz Lounge', description: 'Smooth jazz for your listening pleasure', stream: 'https://stream.example.com/jazz' },
-        'station2': { name: 'Rock Classics', description: 'The greatest rock hits from the 70s, 80s, and 90s', stream: 'https://stream.example.com/rock' },
-        'station3': { name: 'Classical Music', description: 'Timeless classical compositions', stream: 'https://stream.example.com/classical' }
+        'station1': { name: 'FIP Radio', description: 'French indie music radio', stream: 'https://icecast.radiofrance.fr/fip-hifi.aac' },
+        'station2': { name: 'Radio Paradise', description: 'Eclectic music mix', stream: 'http://stream.radioparadise.com/aac-320' },
+        'station3': { name: 'KEXP', description: 'Seattle indie music', stream: 'https://kexp.streamguys1.com/kexp64.aac' }
     };
     
     // Play button event listener
