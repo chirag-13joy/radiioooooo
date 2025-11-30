@@ -1,0 +1,7 @@
+# .htaccess - URL rewriting for clean stream URLs
+
+RewriteEngine On
+
+# Rewrite stream URLs
+RewriteRule ^stream$ stream.php [L]
+RewriteRule ^stream/(.*)$ stream.php?station=$1 [L]
