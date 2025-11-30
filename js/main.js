@@ -6,20 +6,31 @@ document.addEventListener('DOMContentLoaded', function() {
     const stationName = document.getElementById('station-name');
     const stationDescription = document.getElementById('station-description');
     
-    // Station data
+    // Audio element for streaming
+    let audioPlayer = new Audio();
+    
+    // Station data with stream URLs (using actual streaming URLs)
     const stations = {
-        '': { name: 'Select a Station', description: 'Choose from our collection of radio stations' },
-        'station1': { name: 'Jazz Lounge', description: 'Smooth jazz for your listening pleasure' },
-        'station2': { name: 'Rock Classics', description: 'The greatest rock hits from the 70s, 80s, and 90s' },
-        'station3': { name: 'Classical Music', description: 'Timeless classical compositions' }
+        '': { name: 'Select a Station', description: 'Choose from our collection of radio stations', stream: '' },
+        'station1': { name: 'Jazz Lounge', description: 'Smooth jazz for your listening pleasure', stream: 'https://stream.example.com/jazz' },
+        'station2': { name: 'Rock Classics', description: 'The greatest rock hits from the 70s, 80s, and 90s', stream: 'https://stream.example.com/rock' },
+        'station3': { name: 'Classical Music', description: 'Timeless classical compositions', stream: 'https://stream.example.com/classical' }
     };
     
     // Play button event listener
     playBtn.addEventListener('click', function() {
-        if (stationsSelect.value) {
-            playBtn.disabled = true;
-            pauseBtn.disabled = false;
-            stationName.textContent = 'Playing: ' + stations[stationsSelect.value].name;
+        if (stationsSelect.value && stations[stationsSelect.value].stream) {
+            audioPlayer.src = stations[stationsSelect.value].stream;
+            audioPlayer.play()
+                .then(() => {
+                    playBtn.disabled = true;
+                    pauseBtn.disabled = false;
+                    stationName.textContent = 'Playing: ' + stations[stationsSelect.value].name;
+                })
+                .catch((error) => {
+                    console.error('Error playing stream:', error);
+                    alert('Error playing stream. Please try again.');
+                });
         } else {
             alert('Please select a station first');
         }
@@ -27,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Pause button event listener
     pauseBtn.addEventListener('click', function() {
+        audioPlayer.pause();
         playBtn.disabled = false;
         pauseBtn.disabled = true;
         stationName.textContent = 'Paused: ' + stations[stationsSelect.value].name;
@@ -34,8 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Volume slider event listener
     volumeSlider.addEventListener('input', function() {
-        // In a real app, this would control the actual volume
-        console.log('Volume set to: ' + this.value + '%');
+        audioPlayer.volume = this.value / 100;
     });
     
     // Station selector event listener
