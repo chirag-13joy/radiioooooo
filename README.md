@@ -42,8 +42,8 @@ A powerful and flexible radio broadcasting system that supports multiple music s
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/GauravGhost/MRadio
-cd MRadio
+git clone https://github.com/chirag-13joy/radiioooooo.git
+cd radiioooooo
 ```
 
 2. **Install dependencies:**
@@ -52,8 +52,16 @@ npm install
 ```
 
 3. **Configure environment variables:**
-Create a `.env` file in the root directory with the following variables:
-```env
+   
+   **Option 1: Automated Setup (Recommended)**
+   Run the setup script to automatically generate secure keys and configure the application:
+   ```bash
+   npm run setup
+   ```
+   
+   **Option 2: Manual Setup**
+   Create a `.env` file in the root directory with the following variables:
+   ```env
 # Server Configuration
 PORT=9126
 NODE_ENV=development
@@ -98,8 +106,8 @@ npm start
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/GauravGhost/MRadio
-cd MRadio
+git clone https://github.com/chirag-13joy/radiioooooo.git
+cd radiioooooo
 ```
 
 2. **Configure environment variables:**
@@ -879,10 +887,10 @@ If you find this project useful, please consider:
 
 ### Get Help
 - 📚 **Documentation**: Read this README and API docs
-- 🐛 **Issues**: [GitHub Issues](https://github.com/GauravGhost/MRadio/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/GauravGhost/MRadio/discussions)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/chirag-13joy/radiioooooo/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/chirag-13joy/radiioooooo/discussions)
 - 📧 **Contact**: Reach out via GitHub profile
 
 ---
 
-**Made with ❤️ by [GauravGhost](https://github.com/GauravGhost)**
+**Made with ❤️ by [Chirag](https://github.com/chirag-13joy)**
