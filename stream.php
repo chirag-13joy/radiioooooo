@@ -14,34 +14,28 @@ ignore_user_abort(false);
 // Get station parameter
 $station = isset($_GET['station']) ? $_GET['station'] : '';
 
-// Map stations to audio files
-$stationFiles = [
-    'jazz' => 'media/jazz-lounge.mp3',
-    'rock' => 'media/rock-classics.mp3',
-    'classical' => 'media/classical-music.mp3'
+// Map stations to audio files or streams
+$stationStreams = [
+    'jazz' => 'https://icecast.radiofrance.fr/fip-hifi.aac',
+    'rock' => 'http://stream.radioparadise.com/aac-320',
+    'classical' => 'https://kexp.streamguys1.com/kexp64.aac'
 ];
 
 // Check if station is valid
-if (!empty($station) && isset($stationFiles[$station])) {
-    $audioFile = $stationFiles[$station];
+if (!empty($station) && isset($stationStreams[$station])) {
+    $streamUrl = $stationStreams[$station];
     
-    if (file_exists($audioFile)) {
-        // Open the file
-        $fp = fopen($audioFile, 'rb');
-        
-        if ($fp) {
-            // Stream the file
-            while (!feof($fp) && connection_status() == 0) {
-                // Output buffer
-                print(fread($fp, 1024*8));
-                flush();
-                sleep(1);
-            }
-            fclose($fp);
-        } else {
-            http_response_code(404);
-            echo "Audio file not found";
+    // Open the stream
+    $stream = fopen($streamUrl, 'rb');
+    
+    if ($stream) {
+        // Stream the audio
+        while (!feof($stream) && connection_status() == 0) {
+            // Output buffer
+            print(fread($stream, 1024*8));
+            flush();
         }
+        fclose($stream);
     } else {
         http_response_code(404);
         echo "Stream not available";

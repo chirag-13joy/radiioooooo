@@ -4,4 +4,4 @@ RewriteEngine On
 
 # Rewrite stream URLs
 RewriteRule ^stream$ stream.php [L]
-RewriteRule ^stream/(.*)$ stream.php?station=$1 [L]
+RewriteRule ^stream/(.*)$ stream.php?station=$1 [L,QSA]

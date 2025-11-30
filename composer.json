@@ -1,0 +1,20 @@
+{
+  "name": "mradio",
+  "description": "Online radio player with streaming capabilities",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "MRadio Developer",
+      "email": "developer@example.com"
+    }
+  ],
+  "require": {
+    "php": "^8.0"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "chmod +x start.sh"
+    ]
+  }
+}
