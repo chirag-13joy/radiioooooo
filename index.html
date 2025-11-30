@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRadio - Online Radio Player</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MRadio</h1>
+            <p>Your favorite online radio player</p>
+        </header>
+        
+        <main>
+            <div class="radio-player">
+                <div class="station-info">
+                    <h2 id="station-name">Select a Station</h2>
+                    <p id="station-description">Choose from our collection of radio stations</p>
+                </div>
+                
+                <div class="controls">
+                    <button id="play-btn" class="control-btn">Play</button>
+                    <button id="pause-btn" class="control-btn" disabled>Pause</button>
+                    <input type="range" id="volume-slider" min="0" max="100" value="50">
+                </div>
+                
+                <div class="station-selector">
+                    <label for="stations">Select Station:</label>
+                    <select id="stations">
+                        <option value="">-- Choose a Station --</option>
+                        <option value="station1">Station 1</option>
+                        <option value="station2">Station 2</option>
+                        <option value="station3">Station 3</option>
+                    </select>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2025 MRadio. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>
